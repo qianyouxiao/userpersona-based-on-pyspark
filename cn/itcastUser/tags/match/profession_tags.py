@@ -11,28 +11,27 @@ from cn.itcastUser.tags.match.tagsClass import Tags_basic_Template
 """
 -------------------------------------------------
    Description :	TODO：
-   SourceFile  :	marital_tags
+   SourceFile  :	profession_tags
    Author      :	'钱有霄'
    Date	       :	2023/9/18
 -------------------------------------------------
 """
 
 
-class MaritalTags(Tags_basic_Template):
+class ProfessionTags(Tags_basic_Template):
     def get_level4_id(self):
-        return 65
+        return 7
 
     def compute(self, es_df: DataFrame, mysql_tags_level5_df: DataFrame):
-        lever5_tags_dict = mysql_tags_level5_df.rdd.collectAsMap()
+        level5_tags_dict = mysql_tags_level5_df.rdd.collectAsMap()
 
         @F.udf
-        def get_tags(marriage):
-            return lever5_tags_dict.get(marriage)
-
-        new_tags_df = es_df.select(es_df['id'].alias('userId'), get_tags(es_df['marriage']).alias('tagsId'))
+        def get_tags(job):
+            return level5_tags_dict.get(job)
+        new_tags_df = es_df.select(es_df['id'].alias('userId'), get_tags(es_df['job']).alias('tagsId'))
         return new_tags_df
 
 
 if __name__ == '__main__':
-    marital_df = MaritalTags()
-    marital_df.executor()
+    profession_tags = ProfessionTags()
+    profession_tags.executor()

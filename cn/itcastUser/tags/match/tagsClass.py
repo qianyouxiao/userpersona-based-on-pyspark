@@ -65,14 +65,14 @@ def get_user_data_from_es(es_meta):
 
 
 def get_mysql_tags_level5_df(mysql_tags_df, level4_id):
-    mysql_tags_level5_df = mysql_tags_df.where(f'pid={level4_id}').selcet('rule', 'id')
+    mysql_tags_level5_df = mysql_tags_df.where(f'pid={level4_id}').select('rule', 'id')
     return mysql_tags_level5_df
 
 
 def get_history_tags(es_meta):
     old_tags_df = spark.read.format('es')\
         .option('es.nodes', es_meta.esNodes)\
-        .option('es.resource', f'{es_meta.esIndex}/{es_meta.esType}') \
+        .option('es.resource', f'tfec_userprofile_result/{es_meta.esType}') \
         .option("es.read.field.include", "userId, tagsId")\
         .load()
     return old_tags_df
