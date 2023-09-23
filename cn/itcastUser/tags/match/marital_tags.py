@@ -30,7 +30,7 @@ class MaritalTags(Tags_basic_Template):
             return lever5_tags_dict.get(marriage)
 
         new_tags_df = es_df.select(es_df['id'].alias('userId'), get_tags(es_df['marriage']).alias('tagsId'))
-        return new_tags_df
+        print(new_tags_df.count())
 
 
 if __name__ == '__main__':
